@@ -1,5 +1,3 @@
-<!-- Add this inside index.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -74,21 +74,16 @@
     </div>
   </section>
 
-  <!-- Contact -->
+  <!-- Contact Section -->
   <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
     <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <<form name="contact" method="POST" data-netlify="true">
-  <input type="hidden" name="form-name" value="contact" />
-  
-  <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-  
-  <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-  
-  <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
-  
-  <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
-</form>
-
+    <form name="contact" method="POST" data-netlify="true" class="space-y-4 max-w-2xl mx-auto">
+      <input type="hidden" name="form-name" value="contact">
+      <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
+      <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
+    </form>
     <p class="text-center text-gray-600 mt-4">
       <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
       <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
@@ -105,70 +100,38 @@
     <p>&copy; <span id="year"></span> Kiwi Properties. All rights reserved.</p>
   </footer>
 
-  <!-- JavaScript -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    function loadProperties() {
-      const stored = localStorage.getItem("properties");
-      return stored ? JSON.parse(stored) : [
-        { title: "Modern Family Paradise", description: "3 Beds • 2 Baths", price: 245000, imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
-        { title: "Urban Dream Retreat", description: "4 Beds • 3 Baths", price: 320000, imageUrl: "https://images.unsplash.com/photo-1592595896551-12c1d1d9a7a6" },
-        { title: "Luxury at its Finest", description: "5 Beds • 4 Baths", price: 550000, imageUrl: "https://images.unsplash.com/photo-1554995207-c18c203602cb" },
-      ];
-    }
+    const SUPABASE_URL = 'https://zpxuuzpwqxdrfbhwmhvc.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q';
 
-    function displayProperties(list) {
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function loadProperties() {
+      const { data, error } = await supabase.from("properties").select("*").order("id", { ascending: false });
+
       const listings = document.getElementById("listings");
       listings.innerHTML = "";
-      list.forEach(p => {
-        listings.innerHTML += `
-          <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
-            <img src="${p.imageUrl}" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h3 class="font-semibold text-lg">${p.title}</h3>
-              <p class="text-sm text-gray-600">${p.description}</p>
-              <p class="text-xs text-gray-500 italic mt-1">Prime Location</p>
-              <button onclick='viewProperty(${JSON.stringify(p)})' class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
-            </div>
-          </div>`;
-      });
+
+      if (data) {
+        data.forEach(p => {
+          listings.innerHTML += `
+            <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
+              <img src="${p.imageurl}" class="w-full h-48 object-cover">
+              <div class="p-4">
+                <h3 class="font-semibold text-lg">${p.title}</h3>
+                <p class="text-sm text-gray-600">${p.description}</p>
+                <p class="text-xs text-gray-500 italic mt-1">Price: $${parseFloat(p.price).toLocaleString()}</p>
+              </div>
+            </div>`;
+        });
+      } else {
+        listings.innerHTML = "<p class='text-center text-red-500'>Failed to load properties</p>";
+      }
     }
 
-    function filterProperties() {
-      const type = document.getElementById("typeFilter").value;
-      const price = parseInt(document.getElementById("priceFilter").value) || Infinity;
-      const keyword = document.getElementById("searchInput").value.toLowerCase();
-      const props = loadProperties();
-      const filtered = props.filter(p => {
-        return (!type || p.description.toLowerCase().includes(type.toLowerCase())) &&
-               (!price || p.price <= price) &&
-               (p.title.toLowerCase().includes(keyword) || p.description.toLowerCase().includes(keyword));
-      });
-      displayProperties(filtered);
-    }
-
-    function viewProperty(prop) {
-      localStorage.setItem("selectedProperty", JSON.stringify(prop));
-      window.location.href = "view-properties.html";
-    }
-
-    window.onload = () => displayProperties(loadProperties());
+    window.onload = loadProperties;
   </script>
-
-  <!-- Start of Tawk.to Script -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/688f4021d4de331929810add/1j1np517f';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  </script>
-  <!-- End of Tawk.to Script -->
-
 </body>
 </html>
