@@ -1,50 +1,75 @@
-// Login Logic
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
+const form = document.getElementById("uploadForm");
+const propertyList = document.getElementById("propertyList");
+let editingIndex = null;
 
-  if (email === "admin@kiwiproperties.org" && password === "pass1234") {
-    localStorage.setItem("auth", "true");
-    window.location.href = "dashboard.html";
-  } else {
-    document.getElementById("error-msg").innerText = "Invalid login!";
-  }
+function loadProperties() {
+  const stored = localStorage.getItem("properties");
+  return stored ? JSON.parse(stored) : [];
 }
 
-// Property Upload Logic
-document.addEventListener("DOMContentLoaded", function () {
-  const form = document.getElementById("uploadForm");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
+function saveProperties(data) {
+  localStorage.setItem("properties", JSON.stringify(data));
+}
 
-      const title = document.getElementById("title").value;
-      const location = document.getElementById("location").value;
-      const price = document.getElementById("price").value;
-      const description = document.getElementById("description").value;
-      const image = document.getElementById("image").files[0];
+function renderProperties() {
+  const properties = loadProperties();
+  propertyList.innerHTML = "";
+  properties.forEach((p, index) => {
+    propertyList.innerHTML += `
+      <div class="bg-white rounded p-4 shadow space-y-2">
+        <img src="${p.imageUrl}" class="w-full h-40 object-cover rounded" />
+        <h3 class="text-xl font-semibold text-blue-700">${p.title}</h3>
+        <p>${p.description}</p>
+        <p class="text-green-700 font-bold">$${parseFloat(p.price).toLocaleString()}</p>
+        <div class="flex gap-2 mt-2">
+          <button onclick="editProperty(${index})" class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</button>
+          <button onclick="deleteProperty(${index})" class="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
+        </div>
+      </div>
+    `;
+  });
+}
 
-      const reader = new FileReader();
-      reader.onloadend = function () {
-        const property = {
-          title,
-          location,
-          price,
-          description,
-          image: reader.result,
-        };
+function deleteProperty(index) {
+  const props = loadProperties();
+  props.splice(index, 1);
+  saveProperties(props);
+  renderProperties();
+}
 
-        let listings = JSON.parse(localStorage.getItem("properties")) || [];
-        listings.push(property);
-        localStorage.setItem("properties", JSON.stringify(listings));
+function editProperty(index) {
+  const props = loadProperties();
+  const p = props[index];
+  document.getElementById("title").value = p.title;
+  document.getElementById("description").value = p.description;
+  document.getElementById("price").value = p.price;
+  document.getElementById("imageUrl").value = p.imageUrl;
+  editingIndex = index;
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
-        document.getElementById("success-msg").innerText = "Property uploaded!";
-        form.reset();
-      };
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const title = document.getElementById("title").value.trim();
+  const description = document.getElementById("description").value.trim();
+  const price = document.getElementById("price").value.trim();
+  const imageUrl = document.getElementById("imageUrl").value.trim();
 
-      if (image) {
-        reader.readAsDataURL(image);
-      }
-    });
+  if (!title || !description || !price || !imageUrl) return;
+
+  let props = loadProperties();
+  const newProp = { title, description, price, imageUrl };
+
+  if (editingIndex !== null) {
+    props[editingIndex] = newProp;
+    editingIndex = null;
+  } else {
+    props.push(newProp);
   }
+
+  saveProperties(props);
+  renderProperties();
+  form.reset();
 });
+
+renderProperties();
