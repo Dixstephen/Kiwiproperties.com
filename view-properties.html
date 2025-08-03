@@ -3,33 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Property Details - Kiwi Properties</title>
+  <title>Property Details – Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-gray-100 text-gray-800 p-4">
+<body class="bg-gray-100 min-h-screen p-6">
   <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-    <button onclick="goBack()" class="mb-4 bg-blue-600 text-white px-4 py-2 rounded">← Back to Listings</button>
-    <img id="propertyImage" class="w-full h-64 object-cover rounded mb-4" />
-    <h1 id="propertyTitle" class="text-2xl font-bold text-blue-700 mb-2"></h1>
-    <p id="propertyDescription" class="text-lg mb-2"></p>
-    <p id="propertyPrice" class="text-xl font-bold text-green-700"></p>
-    <p class="text-sm text-gray-500 mt-4 italic">Contact Kiwi Properties for more details</p>
+    <h1 id="propTitle" class="text-2xl font-bold text-blue-700 mb-4">Loading...</h1>
+    <img id="propImage" class="w-full h-64 object-cover rounded mb-4" src="" alt="Property Image"/>
+    <p id="propDescription" class="mb-2 text-gray-700"></p>
+    <p id="propPrice" class="text-lg text-green-700 font-semibold"></p>
+    <a href="index.html" class="inline-block mt-6 bg-blue-600 text-white px-4 py-2 rounded">← Back to Listings</a>
   </div>
 
   <script>
-    const prop = JSON.parse(localStorage.getItem("selectedProperty"));
-    if (prop) {
-      document.getElementById("propertyImage").src = prop.imageUrl;
-      document.getElementById("propertyTitle").textContent = prop.title;
-      document.getElementById("propertyDescription").textContent = prop.description;
-      document.getElementById("propertyPrice").textContent = "$" + parseFloat(prop.price).toLocaleString();
-    } else {
-      document.body.innerHTML = "<p class='text-center text-red-600 mt-20'>No property selected.</p>";
+    const supabase = window.supabase.createClient(
+      "https://zpxuuzpwqxdrfbhwmhvc.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q"
+    );
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get("id");
+
+    async function loadProperty() {
+      if (!id) return document.getElementById("propTitle").textContent = "No property ID provided";
+
+      const { data, error } = await supabase.from("kiwiproperties").select("*").eq("id", id).single();
+
+      if (error || !data) {
+        document.getElementById("propTitle").textContent = "Property not found.";
+        return;
+      }
+
+      document.getElementById("propTitle").textContent = data.title;
+      document.getElementById("propImage").src = data.imageurl;
+      document.getElementById("propDescription").textContent = data.description;
+      document.getElementById("propPrice").textContent = `$${parseFloat(data.price).toLocaleString()}`;
     }
 
-    function goBack() {
-      window.location.href = "index.html";
-    }
+    loadProperty();
   </script>
 </body>
 </html>
