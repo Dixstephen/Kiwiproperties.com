@@ -73,25 +73,31 @@
   </section>
 
   <!-- Contact Section -->
-  <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
-    <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="max-w-2xl mx-auto space-y-4">
-  <input type="hidden" name="form-name" value="contact" />
-  <p class="hidden">
-    <label>Don’t fill this out if you’re human: <input name="bot-field" /></label>
-  </p>
-
-  <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-  <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-  <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
-  <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
-</form>
-
-    <p class="text-center text-gray-600 mt-4">
-      <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
-      <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
+<section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
+  <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
+  
+  <!-- Netlify Form Start -->
+  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="max-w-2xl mx-auto space-y-4">
+    <!-- Anti-bot field -->
+    <input type="hidden" name="form-name" value="contact" />
+    <p class="hidden">
+      <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
     </p>
-  </section>
+
+    <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full" />
+    <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full" />
+    <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
+    
+    <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
+  </form>
+  
+  <!-- Contact Info -->
+  <p class="text-center text-gray-600 mt-4">
+    <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
+    <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
+  </p>
+</section>
+
 
   <!-- Footer -->
   <footer class="bg-black text-white py-6 px-4 text-center">
