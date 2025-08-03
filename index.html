@@ -1,3 +1,5 @@
+<!-- Add this inside index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,16 +74,21 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- Contact -->
   <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
     <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <form name="contact" method="POST" data-netlify="true" class="max-w-2xl mx-auto space-y-4">
-      <input type="hidden" name="form-name" value="contact" />
-      <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-      <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-      <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
-      <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
-    </form>
+    <<form name="contact" method="POST" data-netlify="true">
+  <input type="hidden" name="form-name" value="contact" />
+  
+  <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+  
+  <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+  
+  <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
+  
+  <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
+</form>
+
     <p class="text-center text-gray-600 mt-4">
       <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
       <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
@@ -98,21 +105,7 @@
     <p>&copy; <span id="year"></span> Kiwi Properties. All rights reserved.</p>
   </footer>
 
-  <!-- Live Chat Script -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"),
-        s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/688f4021d4de331929810add/1j1np517f';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  </script>
-
-  <!-- JavaScript for Listings -->
+  <!-- JavaScript -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -162,5 +155,20 @@
 
     window.onload = () => displayProperties(loadProperties());
   </script>
+
+  <!-- Start of Tawk.to Script -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/688f4021d4de331929810add/1j1np517f';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
+  <!-- End of Tawk.to Script -->
+
 </body>
 </html>
