@@ -1,17 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const supabaseUrl = "https://zpxuuzpwqxdrfbhwmhvc.supabase.co";
-  const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q";
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
-</script>
-
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -32,12 +26,10 @@
   <section class="bg-blue-100 py-12 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae'); background-size: cover; background-position: center;">
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
-
     <div class="flex w-full max-w-xl gap-2 mx-auto mb-4">
       <input type="text" id="searchInput" placeholder="Search by location or property name" class="flex-1 border-2 border-blue-500 text-white placeholder-white bg-transparent p-2 rounded">
       <button onclick="filterProperties()" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </div>
-
     <div class="flex gap-4 justify-center">
       <select id="typeFilter" onchange="filterProperties()" class="border border-blue-500 p-2 rounded text-white bg-blue-600">
         <option value="">All Types</option>
@@ -79,31 +71,21 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
-<!-- Contact Section -->
-<section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
-  <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-
-  <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="space-y-4">
-  <input type="hidden" name="form-name" value="contact" />
-  <p class="hidden">
-    <label>Don’t fill this out if you're human: <input name="bot-field" /></label>
-  </p>
-  <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 w-full" />
-  <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 w-full" />
-  <textarea name="message" placeholder="Message" required class="border border-blue-400 rounded p-2 w-full"></textarea>
-  <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
-</form>
-
-
-  <p class="text-center text-gray-600 mt-4">
-    <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
-    <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
-  </p>
-</section>
-
-</section>
-
+  <!-- Contact -->
+  <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
+    <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
+    <form name="contact" method="POST" data-netlify="true">
+      <input type="hidden" name="form-name" value="contact">
+      <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full mb-2">
+      <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full mb-2">
+      <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full mb-2"></textarea>
+      <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
+    </form>
+    <p class="text-center text-gray-600 mt-4">
+      <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
+      <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
+    </p>
+  </section>
 
   <!-- Footer -->
   <footer class="bg-black text-white py-6 px-4 text-center">
@@ -114,49 +96,6 @@
     </div>
     <p>&copy; <span id="year"></span> Kiwi Properties. All rights reserved.</p>
   </footer>
-
-  <!-- Supabase Listings Script -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script>
-  const SUPABASE_URL = "https://zpxuuzpwqxdrfbhwmhvc.supabase.co";
-  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q";
-
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  async function fetchProperties() {
-    const { data, error } = await supabase.from('properties').select('*');
-    if (error) {
-      console.error("Error fetching properties:", error.message);
-      return;
-    }
-
-    const listings = document.getElementById("listings");
-    listings.innerHTML = "";
-
-    data.forEach(p => {
-      listings.innerHTML += `
-        <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
-          <img src="${p.image_url}" class="w-full h-48 object-cover" alt="Property Image">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg">${p.title}</h3>
-            <p class="text-sm text-gray-600">${p.description}</p>
-            <p class="text-xs text-gray-500 italic mt-1">Price: $${parseFloat(p.price).toLocaleString()}</p>
-            <button onclick='viewProperty(${JSON.stringify(p)})' class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
-          </div>
-        </div>
-      `;
-    });
-  }
-
-  function viewProperty(prop) {
-    localStorage.setItem("selectedProperty", JSON.stringify(prop));
-    window.location.href = "view-properties.html";
-  }
-
-  window.onload = fetchProperties;
-</script>
-
-
 
   <!-- Tawk.to Live Chat -->
   <script type="text/javascript">
@@ -171,5 +110,59 @@
     })();
   </script>
 
+  <!-- JS Logic -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const supabase = window.supabase.createClient(
+      "https://zpxuuzpwqxdrfbhwmhvc.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q"
+    );
+
+    async function loadProperties() {
+      const { data, error } = await supabase.from("kiwiproperties").select("*").order("id", { ascending: false });
+      if (error) return alert("Failed to load properties.");
+
+      displayProperties(data);
+    }
+
+    function displayProperties(list) {
+      const listings = document.getElementById("listings");
+      listings.innerHTML = "";
+      list.forEach(p => {
+        listings.innerHTML += `
+          <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
+            <img src="${p.imageurl}" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">${p.title}</h3>
+              <p class="text-sm text-gray-600">${p.description}</p>
+              <p class="text-xs text-gray-500 italic mt-1">Prime Location</p>
+              <button onclick='viewProperty(${p.id})' class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
+            </div>
+          </div>`;
+      });
+    }
+
+    function filterProperties() {
+      const type = document.getElementById("typeFilter").value;
+      const price = parseInt(document.getElementById("priceFilter").value) || Infinity;
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+
+      supabase.from("kiwiproperties").select("*").then(({ data }) => {
+        const filtered = data.filter(p =>
+          (!type || p.description.toLowerCase().includes(type.toLowerCase())) &&
+          (!price || p.price <= price) &&
+          (p.title.toLowerCase().includes(keyword) || p.description.toLowerCase().includes(keyword))
+        );
+        displayProperties(filtered);
+      });
+    }
+
+    function viewProperty(id) {
+      window.location.href = `view-properties.html?id=${id}`;
+    }
+
+    window.onload = loadProperties;
+  </script>
 </body>
 </html>
