@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard – Kiwi Properties</title>
@@ -24,5 +26,18 @@
   </div>
 
   <script src="script.js"></script>
+  <script>
+  function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+  }
+// Auto logout after 30 minutes
+setTimeout(() => {
+  sessionStorage.removeItem("isLoggedIn");
+  alert("Session expired. Please log in again.");
+  window.location.href = "login.html";
+}, 30 * 60 * 1000); // 30 minutes
+
+</script>
 </body>
 </html>
