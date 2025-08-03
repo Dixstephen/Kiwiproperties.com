@@ -28,7 +28,14 @@
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
 
-    <div class="flex w-full max-w-xl gap-2 mx-auto mb-4">
+    <!-- "Browse Properties" Button -->
+    <div class="mt-4">
+      <a href="view-properties.html" class="inline-block bg-white text-blue-700 font-semibold px-6 py-2 rounded shadow hover:bg-blue-100 transition">
+        🏡 Browse All Properties
+      </a>
+    </div>
+
+    <div class="flex w-full max-w-xl gap-2 mx-auto mt-6 mb-4">
       <input type="text" id="searchInput" placeholder="Search by location or property name" class="flex-1 border-2 border-blue-500 text-white placeholder-white bg-transparent p-2 rounded">
       <button onclick="filterProperties()" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </div>
@@ -109,11 +116,11 @@
   <!-- JavaScript -->
   <script>
     const sliderImages = [
-      "https://source.unsplash.com/800x400/?modern-house",
-      "https://source.unsplash.com/800x400/?villa",
-      "https://source.unsplash.com/800x400/?real-estate",
-      "https://source.unsplash.com/800x400/?luxury-home",
-      "https://source.unsplash.com/800x400/?interior-design"
+      "https://i.pinimg.com/1200x/0d/4a/92/0d4a9292f41b490154601018583aed46.jpg",
+      "https://i.pinimg.com/1200x/eb/0a/2e/eb0a2ee716ddc7c10a5d3bf935db275a.jpg",
+      "https://i.pinimg.com/736x/a4/5e/71/a45e718c50e18673952bb2c171d8263a.jpg",
+      "https://i.pinimg.com/736x/48/3f/0a/483f0aa74e9cbd1b4dc6cd4598362221.jpg",
+      "https://i.pinimg.com/736x/c0/1d/3b/c01d3b47f3343e30b581878e8d4bc55a.jpg"
     ];
     let currentIndex = 0;
     const sliderImage = document.getElementById("sliderImage");
