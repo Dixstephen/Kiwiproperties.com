@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inbox – Kiwi Properties</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+    <h1 class="text-2xl font-bold text-blue-700 mb-4">📬 Contact Form Inbox</h1>
+    
+    <div id="messageList" class="space-y-4">
+      <!-- Messages will appear here -->
+    </div>
+
+    <p id="emptyMsg" class="text-gray-500">No messages yet.</p>
+  </div>
+
+  <script>
+    const messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+    const list = document.getElementById("messageList");
+    const emptyMsg = document.getElementById("emptyMsg");
+
+    if (messages.length > 0) {
+      emptyMsg.style.display = "none";
+      messages.reverse().forEach(msg => {
+        list.innerHTML += `
+          <div class="border border-gray-300 rounded p-4 bg-gray-50">
+            <h2 class="text-lg font-semibold text-blue-800">${msg.name}</h2>
+            <p class="text-sm text-gray-600">${msg.email}</p>
+            <p class="mt-2">${msg.message}</p>
+            <p class="text-xs text-right text-gray-400 mt-2">📅 ${msg.date}</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
