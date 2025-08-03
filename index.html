@@ -11,9 +11,7 @@
   <!-- Header -->
   <header class="bg-white text-black shadow-md p-4 flex items-center justify-between">
     <div class="flex items-center space-x-2">
-      <div class="h-12 w-12 rounded-full border-2 border-blue-600 flex items-center justify-center text-xl font-bold text-blue-600">
-        KW
-      </div>
+      <div class="h-12 w-12 rounded-full border-2 border-blue-600 flex items-center justify-center text-xl font-bold text-blue-600">KW</div>
       <h1 class="text-2xl font-extrabold text-blue-700 font-sans">Kiwi Properties</h1>
     </div>
     <nav class="hidden md:flex space-x-6">
@@ -28,11 +26,8 @@
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
 
-    <!-- "Browse Properties" Button -->
     <div class="mt-4">
-      <a href="view-properties.html" class="inline-block bg-white text-blue-700 font-semibold px-6 py-2 rounded shadow hover:bg-blue-100 transition">
-        🏡 Browse All Properties
-      </a>
+      <a href="view-properties.html" class="inline-block bg-white text-blue-700 font-semibold px-6 py-2 rounded shadow hover:bg-blue-100 transition">🏡 Browse All Properties</a>
     </div>
 
     <div class="flex w-full max-w-xl gap-2 mx-auto mt-6 mb-4">
@@ -88,13 +83,16 @@
   <!-- Contact -->
   <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
     <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <form action="https://formspree.io/f/xdoqzvya" method="POST" class="max-w-2xl mx-auto space-y-4">
-      <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-      <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
-      <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
+
+    <form onsubmit="saveMessage(event)" class="max-w-2xl mx-auto space-y-4">
+      <input type="text" id="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <input type="email" id="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <textarea id="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
       <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
     </form>
-    <p class="text-center text-gray-600 mt-4">
+    <p class="text-center text-green-600 mt-2 hidden" id="thankYou">Thanks! We'll get back to you.</p>
+
+    <p class="text-center text-gray-600 mt-6">
       <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
       <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
     </p>
@@ -119,8 +117,7 @@
       "https://i.pinimg.com/1200x/0d/4a/92/0d4a9292f41b490154601018583aed46.jpg",
       "https://i.pinimg.com/1200x/eb/0a/2e/eb0a2ee716ddc7c10a5d3bf935db275a.jpg",
       "https://i.pinimg.com/736x/a4/5e/71/a45e718c50e18673952bb2c171d8263a.jpg",
-      "https://i.pinimg.com/736x/48/3f/0a/483f0aa74e9cbd1b4dc6cd4598362221.jpg",
-      "https://i.pinimg.com/736x/c0/1d/3b/c01d3b47f3343e30b581878e8d4bc55a.jpg"
+      "https://i.pinimg.com/736x/48/3f/0a/483f0aa74e9cbd1b4dc6cd4598362221.jpg"
     ];
     let currentIndex = 0;
     const sliderImage = document.getElementById("sliderImage");
@@ -135,7 +132,7 @@
         id: 1,
         title: "Modern Family House",
         description: "3 Beds • 2 Baths • $250,000",
-        image: "https://source.unsplash.com/400x300/?house,1",
+        image: "https://images.unsplash.com/photo-1599422314077-f4dfdaa4cdab?auto=format&fit=crop&w=800&q=80",
         address: "123 Maple Street, Springfield",
         type: "Family",
         price: 250000
@@ -144,7 +141,7 @@
         id: 2,
         title: "Cozy Bungalow",
         description: "2 Beds • 1 Bath • $180,000",
-        image: "https://source.unsplash.com/400x300/?house,2",
+        image: "https://images.unsplash.com/photo-1560185127-6ed189bf02d3?auto=format&fit=crop&w=800&q=80",
         address: "456 Oak Avenue, Rivertown",
         type: "Bungalow",
         price: 180000
@@ -153,7 +150,7 @@
         id: 3,
         title: "Luxury Villa",
         description: "5 Beds • 4 Baths • $750,000",
-        image: "https://source.unsplash.com/400x300/?house,3",
+        image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80",
         address: "789 Palm Drive, Lakeside",
         type: "Villa",
         price: 750000
@@ -196,6 +193,22 @@
       displayProperties(properties);
       document.getElementById("year").textContent = new Date().getFullYear();
     };
+
+    function saveMessage(e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const message = document.getElementById("message").value.trim();
+      const date = new Date().toLocaleString();
+
+      if (name && email && message) {
+        const messages = JSON.parse(localStorage.getItem("contactMessages")) || [];
+        messages.push({ name, email, message, date });
+        localStorage.setItem("contactMessages", JSON.stringify(messages));
+        document.getElementById("thankYou").classList.remove("hidden");
+        e.target.reset();
+      }
+    }
   </script>
 </body>
 </html>
