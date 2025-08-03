@@ -3,155 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Available Properties | Kiwi Properties</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background-color: #f6f6f6;
-    }
-
-    header {
-      background-color: #2c3e50;
-      color: white;
-      padding: 1rem;
-      text-align: center;
-    }
-
-    .container {
-      padding: 2rem;
-    }
-
-    .search-box {
-      max-width: 400px;
-      margin: 0 auto 2rem auto;
-      display: flex;
-    }
-
-    .search-box input {
-      flex: 1;
-      padding: 0.6rem;
-      border: 1px solid #ccc;
-      border-radius: 4px 0 0 4px;
-    }
-
-    .search-box button {
-      padding: 0.6rem 1rem;
-      background-color: #2980b9;
-      color: white;
-      border: none;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
-
-    .property-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .property-card {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      overflow: hidden;
-      transition: 0.3s ease;
-    }
-
-    .property-card:hover {
-      transform: scale(1.02);
-    }
-
-    .property-card img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .property-details {
-      padding: 1rem;
-    }
-
-    .property-details h3 {
-      margin: 0 0 0.5rem 0;
-      color: #2c3e50;
-    }
-
-    .property-details p {
-      margin: 0.3rem 0;
-      color: #555;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1rem;
-      background-color: #ecf0f1;
-      margin-top: 2rem;
-    }
-  </style>
+  <title>Property Details | Kiwi Properties</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
 </head>
-<body>
-  <header>
-    <h1>Browse Available Properties</h1>
-  </header>
-
-  <div class="container">
-    <div class="search-box">
-      <input type="text" id="searchInput" placeholder="Search by location or title...">
-      <button onclick="filterProperties()">Search</button>
-    </div>
-
-    <div id="propertyList" class="property-grid">
-      <!-- Properties will be inserted here -->
-    </div>
+<body class="bg-gray-50 min-h-screen p-6">
+  <div class="max-w-4xl mx-auto bg-white shadow rounded p-6">
+    <h1 id="title" class="text-3xl font-bold text-blue-700 mb-4">Property Title</h1>
+    <img id="image" class="w-full h-64 object-cover rounded mb-4" src="" alt="Property" />
+    <p id="description" class="text-gray-700 mb-2">Description</p>
+    <p id="price" class="text-green-700 font-bold text-xl mb-4">$0</p>
+    <a href="index.html" class="text-blue-600 underline">← Back to Listings</a>
   </div>
 
-  <footer>
-    &copy; 2025 Kiwi Properties
-  </footer>
-
   <script>
-    const propertyList = document.getElementById("propertyList");
-    const searchInput = document.getElementById("searchInput");
-
-    // Load properties from localStorage
-    let properties = JSON.parse(localStorage.getItem("properties")) || [];
-
-    function displayProperties(data) {
-      propertyList.innerHTML = "";
-
-      if (data.length === 0) {
-        propertyList.innerHTML = "<p>No properties found.</p>";
-        return;
-      }
-
-      data.forEach((property) => {
-        const card = document.createElement("div");
-        card.className = "property-card";
-        card.innerHTML = `
-          <img src="${property.image}" alt="${property.title}">
-          <div class="property-details">
-            <h3>${property.title}</h3>
-            <p><strong>Price:</strong> ${property.price}</p>
-            <p><strong>Location:</strong> ${property.location}</p>
-            <p>${property.description}</p>
-          </div>
-        `;
-        propertyList.appendChild(card);
-      });
+    const prop = JSON.parse(localStorage.getItem("selectedProperty"));
+    if (!prop) {
+      document.body.innerHTML = "<p class='text-center text-red-500 text-xl mt-10'>No property selected.</p>";
+    } else {
+      document.getElementById("title").textContent = prop.title;
+      document.getElementById("description").textContent = prop.description;
+      document.getElementById("price").textContent = "$" + parseFloat(prop.price).toLocaleString();
+      document.getElementById("image").src = prop.imageUrl;
     }
-
-    function filterProperties() {
-      const term = searchInput.value.toLowerCase();
-      const filtered = properties.filter(p =>
-        p.title.toLowerCase().includes(term) ||
-        p.location.toLowerCase().includes(term)
-      );
-      displayProperties(filtered);
-    }
-
-    // Initial load
-    displayProperties(properties);
   </script>
 </body>
 </html>
