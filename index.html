@@ -22,7 +22,7 @@
   </header>
 
   <!-- Hero Section with Background Image Only -->
-  <section class="bg-blue-100 py-12 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf'); background-size: cover; background-position: center;">
+  <section class="bg-blue-100 py-12 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae'); background-size: cover; background-position: center;">
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
 
@@ -30,12 +30,6 @@
       <input type="text" id="searchInput" placeholder="Search by location or property name" class="flex-1 border-2 border-blue-500 text-white placeholder-white bg-transparent p-2 rounded">
       <button onclick="filterProperties()" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </div>
-    <div class="mt-4">
-  <a href="view-properties.html" class="inline-block bg-green-600 text-white px-6 py-2 rounded shadow hover:bg-green-700 transition">
-    View All Listings
-  </a>
-</div>
-
 
     <div class="flex gap-4 justify-center">
       <select id="typeFilter" onchange="filterProperties()" class="border border-blue-500 p-2 rounded text-white bg-blue-600">
@@ -78,10 +72,11 @@
     </div>
   </section>
 
-  <!-- Contact Section -->
+  <!-- Contact Section (Netlify Form) -->
   <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
     <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <form action="https://formspree.io/f/xdoqzvya" method="POST" class="max-w-2xl mx-auto space-y-4">
+    <form name="contact" method="POST" data-netlify="true" class="max-w-2xl mx-auto space-y-4">
+      <input type="hidden" name="form-name" value="contact" />
       <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
       <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
       <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
@@ -108,14 +103,14 @@
 
     const propertyImages = [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-      "https://images.unsplash.com/photo-1560185127-6ed189bf02f4",
-      "https://images.unsplash.com/photo-1600585153731-cd8a1c9128a1",
+      "https://images.unsplash.com/photo-1592595896551-12c1d1d9a7a6",
       "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
-      "https://images.unsplash.com/photo-1599423300746-b62533397364",
-      "https://images.unsplash.com/photo-1572120360610-d971b9b78825",
-      "https://images.unsplash.com/photo-1600585152894-7c1d0d4f5c54",
       "https://images.unsplash.com/photo-1554995207-c18c203602cb",
-      "https://images.unsplash.com/photo-1600585153850-1c4f5b8a8d42"
+      "https://images.unsplash.com/photo-1572120360610-d971b9b78825",
+      "https://images.unsplash.com/photo-1565182999561-18d7dc61b7d7",
+      "https://images.unsplash.com/photo-1574180045827-681f8a1a9622",
+      "https://images.unsplash.com/photo-1600585153866-cac1f0384d71",
+      "https://images.unsplash.com/photo-1599423300746-b62533397364"
     ];
 
     const captions = [
