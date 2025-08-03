@@ -1,54 +1,34 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+const supabase = createClient(
+  "https://YOUR_PROJECT_URL.supabase.co", // 🔁 replace this
+  "YOUR_PUBLIC_ANON_KEY"                  // 🔁 replace this
+);
+
 const form = document.getElementById("uploadForm");
 const propertyList = document.getElementById("propertyList");
-let editingIndex = null;
 
-function loadProperties() {
-  const stored = localStorage.getItem("properties");
-  return stored ? JSON.parse(stored) : [];
+async function loadProperties() {
+  const { data, error } = await supabase.from("properties").select("*");
+  if (error) console.error(error);
+  else renderProperties(data);
 }
 
-function saveProperties(data) {
-  localStorage.setItem("properties", JSON.stringify(data));
-}
-
-function renderProperties() {
-  const properties = loadProperties();
+function renderProperties(properties) {
   propertyList.innerHTML = "";
-  properties.forEach((p, index) => {
+  properties.forEach((p) => {
     propertyList.innerHTML += `
       <div class="bg-white rounded p-4 shadow space-y-2">
-        <img src="${p.imageUrl}" class="w-full h-40 object-cover rounded" />
+        <img src="${p.image_url}" class="w-full h-40 object-cover rounded" />
         <h3 class="text-xl font-semibold text-blue-700">${p.title}</h3>
         <p>${p.description}</p>
         <p class="text-green-700 font-bold">$${parseFloat(p.price).toLocaleString()}</p>
-        <div class="flex gap-2 mt-2">
-          <button onclick="editProperty(${index})" class="bg-yellow-500 text-white px-3 py-1 rounded">Edit</button>
-          <button onclick="deleteProperty(${index})" class="bg-red-600 text-white px-3 py-1 rounded">Delete</button>
-        </div>
       </div>
     `;
   });
 }
 
-function deleteProperty(index) {
-  const props = loadProperties();
-  props.splice(index, 1);
-  saveProperties(props);
-  renderProperties();
-}
-
-function editProperty(index) {
-  const props = loadProperties();
-  const p = props[index];
-  document.getElementById("title").value = p.title;
-  document.getElementById("description").value = p.description;
-  document.getElementById("price").value = p.price;
-  document.getElementById("imageUrl").value = p.imageUrl;
-  editingIndex = index;
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-form.addEventListener("submit", function (e) {
+form.addEventListener("submit", async function (e) {
   e.preventDefault();
   const title = document.getElementById("title").value.trim();
   const description = document.getElementById("description").value.trim();
@@ -57,19 +37,17 @@ form.addEventListener("submit", function (e) {
 
   if (!title || !description || !price || !imageUrl) return;
 
-  let props = loadProperties();
-  const newProp = { title, description, price, imageUrl };
+  const { error } = await supabase.from("properties").insert([
+    { title, description, price: parseFloat(price), image_url: imageUrl },
+  ]);
 
-  if (editingIndex !== null) {
-    props[editingIndex] = newProp;
-    editingIndex = null;
+  if (error) {
+    console.error(error);
+    alert("Upload failed.");
   } else {
-    props.push(newProp);
+    form.reset();
+    loadProperties();
   }
-
-  saveProperties(props);
-  renderProperties();
-  form.reset();
 });
 
-renderProperties();
+loadProperties();
