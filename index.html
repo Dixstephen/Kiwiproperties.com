@@ -7,7 +7,7 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <style>
     .fade {
-      transition: opacity 1s ease-in-out;
+      transition: opacity 1.2s ease-in-out;
       opacity: 0;
     }
     .fade.active {
@@ -30,89 +30,145 @@
     </nav>
   </header>
 
-  <!-- Hero Section with Smooth Slide -->
-  <section class="relative">
-    <div class="relative h-[400px] overflow-hidden">
-      <img id="sliderImage" class="absolute inset-0 w-full h-full object-cover fade active" src="https://images.unsplash.com/photo-1560185127-6ed189bf02d3?auto=format&fit=crop&w=1200&q=80" alt="House Slide" />
+  <!-- Hero Section -->
+  <section class="bg-blue-100 py-6 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c'); background-size: cover; background-position: center;">
+    <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
+    <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
+
+    <div class="flex w-full max-w-xl gap-2 mx-auto mb-4">
+      <input type="text" id="searchInput" placeholder="Search by location or property name" class="flex-1 border-2 border-blue-500 text-white placeholder-white bg-transparent p-2 rounded">
+      <button onclick="filterProperties()" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </div>
-    <div class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-white text-center p-4">
-      <h2 class="text-4xl font-bold mb-2">Find Your Dream Home</h2>
-      <p class="text-lg mb-4">Explore premium properties handpicked just for you</p>
-      <a href="view-properties.html" class="bg-white text-blue-700 font-semibold px-6 py-2 rounded shadow hover:bg-blue-100 transition">🏡 Browse All Properties</a>
+
+    <div class="flex gap-4 justify-center mb-6">
+      <select id="typeFilter" onchange="filterProperties()" class="border border-blue-500 p-2 rounded text-white bg-blue-600">
+        <option value="">All Types</option>
+        <option value="Family">Family</option>
+        <option value="Bungalow">Bungalow</option>
+        <option value="Villa">Villa</option>
+      </select>
+      <select id="priceFilter" onchange="filterProperties()" class="border border-blue-500 p-2 rounded text-white bg-blue-600">
+        <option value="">Any Price</option>
+        <option value="200000">Up to $200,000</option>
+        <option value="500000">Up to $500,000</option>
+        <option value="800000">Up to $800,000</option>
+      </select>
     </div>
   </section>
 
+  <!-- Slide Section -->
+  <section class="relative max-w-5xl mx-auto mt-4">
+    <img id="sliderImage" class="w-full h-64 object-cover rounded fade active" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" />
+    <button onclick="changeSlide(-1)" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-600 text-white px-2 py-1">❮</button>
+    <button onclick="changeSlide(1)" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-600 text-white px-2 py-1">❯</button>
+  </section>
+
   <!-- Listings -->
-  <main id="listings" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-  </main>
+  <main id="listings" class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"></main>
 
   <!-- Testimonials -->
   <section class="bg-gray-100 py-12 px-4">
     <h2 class="text-3xl font-bold text-center text-blue-800 mb-10">What Our Clients Say</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       <div class="bg-white p-6 rounded shadow text-center">
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" class="w-16 h-16 rounded-full mx-auto mb-4" />
-        <p class="italic">"Kiwi Properties helped us find the perfect villa. Professional and fast!"</p>
-        <strong class="block mt-2 text-blue-700">– Mary Johnson</strong>
+        <img src="https://randomuser.me/api/portraits/women/45.jpg" class="w-16 h-16 rounded-full mx-auto mb-4" />
+        <p class="italic">"Kiwi Properties helped me close a great deal fast! Highly recommended."</p>
+        <strong class="block mt-2 text-blue-700">– Grace A.</strong>
       </div>
       <div class="bg-white p-6 rounded shadow text-center">
         <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-16 h-16 rounded-full mx-auto mb-4" />
-        <p class="italic">"We love our new home! Highly recommended for families."</p>
-        <strong class="block mt-2 text-blue-700">– David Lee</strong>
+        <p class="italic">"Professional and honest service. My family is grateful."</p>
+        <strong class="block mt-2 text-blue-700">– Chukwu E.</strong>
       </div>
       <div class="bg-white p-6 rounded shadow text-center">
-        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-16 h-16 rounded-full mx-auto mb-4" />
-        <p class="italic">"Very smooth transaction and trustworthy team."</p>
-        <strong class="block mt-2 text-blue-700">– Aisha Khalid</strong>
+        <img src="https://randomuser.me/api/portraits/women/28.jpg" class="w-16 h-16 rounded-full mx-auto mb-4" />
+        <p class="italic">"They connected us with the perfect home in a great neighborhood."</p>
+        <strong class="block mt-2 text-blue-700">– Janet M.</strong>
       </div>
     </div>
   </section>
 
-  <!-- Contact & Footer (you already have this, no changes needed) -->
+  <!-- Contact Section -->
+  <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
+    <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
+    <form action="https://formspree.io/f/xdoqzvya" method="POST" class="max-w-2xl mx-auto space-y-4">
+      <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
+      <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
+      <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Send Message</button>
+    </form>
+    <p class="text-center text-gray-600 mt-4">
+      <strong>Email:</strong> <a href="mailto:managementkiwiproperty@gmail.com" class="text-blue-600">managementkiwiproperty@gmail.com</a><br/>
+      <strong>Phone:</strong> <a href="tel:+12675005242" class="text-blue-600">+1 267 500 5242</a>
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-black text-white py-6 px-4 text-center">
+    <div class="mb-4 space-x-4">
+      <a href="#" class="hover:underline">Home</a>
+      <a href="#listings" class="hover:underline">Listings</a>
+      <a href="#contact" class="hover:underline">Contact</a>
+    </div>
+    <p>&copy; <span id="year"></span> Kiwi Properties. All rights reserved.</p>
+  </footer>
 
   <script>
-    const sliderImages = [
-      "https://images.unsplash.com/photo-1599422314077-f4dfdaa4cdab?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80"
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const slideImages = [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+      "https://images.unsplash.com/photo-1572120360610-d971b9d7767c",
+      "https://images.unsplash.com/photo-1560185127-6ed189bf01c1"
     ];
-    let currentIndex = 0;
+    let currentSlide = 0;
     const sliderImage = document.getElementById("sliderImage");
 
-    function changeSlide() {
+    function changeSlide(step) {
       sliderImage.classList.remove("active");
       setTimeout(() => {
-        currentIndex = (currentIndex + 1) % sliderImages.length;
-        sliderImage.src = sliderImages[currentIndex];
+        currentSlide = (currentSlide + step + slideImages.length) % slideImages.length;
+        sliderImage.src = slideImages[currentSlide];
         sliderImage.classList.add("active");
-      }, 300);
+      }, 400);
     }
-    setInterval(changeSlide, 6000);
+    setInterval(() => changeSlide(1), 8000);
 
-    const properties = [
-      "https://images.unsplash.com/photo-1599422314077-f4dfdaa4cdab",
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
-      "https://images.unsplash.com/photo-1560185127-6ed189bf02d3",
-      "https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd7",
-      "https://images.unsplash.com/photo-1613977257363-707ba934822d",
-      "https://images.unsplash.com/photo-1586880244409-8d8a20eae81e",
-      "https://images.unsplash.com/photo-1600585154254-6c8c190b391b",
-      "https://images.unsplash.com/photo-1600585153943-21d0f8f656c7",
-      "https://images.unsplash.com/photo-1600607689212-56e2a6d11d5b",
-      "https://images.unsplash.com/photo-1600585154081-3d5c2b4a1a9d",
-      "https://images.unsplash.com/photo-1622883550168-45f4df56f1b2",
-      "https://images.unsplash.com/photo-1590955551911-20e980e30d5e"
+    const propertyImages = [
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
+      "https://images.unsplash.com/photo-1599427303058-f04cbcf4756f",
+      "https://images.unsplash.com/photo-1597006727987-6e0c38fa8716",
+      "https://images.unsplash.com/photo-1572120360610-d971b9d7767c",
+      "https://images.unsplash.com/photo-1560185127-6ed189bf01c1",
+      "https://images.unsplash.com/photo-1600585153955-bd4ed6d94c4b",
+      "https://images.unsplash.com/photo-1613977257594-6c8b5f3e76e4",
+      "https://images.unsplash.com/photo-1599427302754-b5317d4f9da3",
+      "https://images.unsplash.com/photo-1600585154051-f5dbb93f93ad"
     ];
 
+    const captions = [
+      "Modern Family Paradise",
+      "Urban Dream Retreat",
+      "Classic Charm Villa",
+      "Luxury at its Finest",
+      "Serene Garden Bungalow",
+      "Cozy Family Haven",
+      "Lakeside Relaxation",
+      "Bright & Spacious Living",
+      "Stylish Comfort Nest"
+    ];
+
+    const prices = [245000, 320000, 410000, 550000, 280000, 330000, 460000, 370000, 390000];
+
     const listings = document.getElementById("listings");
-    properties.forEach((img, index) => {
+    propertyImages.forEach((img, index) => {
       listings.innerHTML += `
         <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
-          <img src="${img}?auto=format&fit=crop&w=800&q=80" class="w-full h-48 object-cover">
+          <img src="${img}" class="w-full h-48 object-cover">
           <div class="p-4">
-            <h3 class="font-semibold text-lg">Property ${index + 1}</h3>
-            <p class="text-sm text-gray-600">3 Beds • 2 Baths • $${(200000 + index * 20000).toLocaleString()}</p>
-            <p class="text-xs text-gray-500 italic mt-1">Awesome Location</p>
+            <h3 class="font-semibold text-lg">${captions[index]}</h3>
+            <p class="text-sm text-gray-600">3 Beds • 2 Baths • $${prices[index].toLocaleString()}</p>
+            <p class="text-xs text-gray-500 italic mt-1">Prime Location</p>
             <button class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
           </div>
         </div>`
