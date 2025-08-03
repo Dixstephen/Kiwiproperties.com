@@ -1,3 +1,5 @@
+<!-- Add this inside index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +23,7 @@
     </nav>
   </header>
 
-  <!-- Hero Section with Background Image Only -->
+  <!-- Hero Section -->
   <section class="bg-blue-100 py-12 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507089947368-19c1da9775ae'); background-size: cover; background-position: center;">
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
@@ -72,11 +74,11 @@
     </div>
   </section>
 
-  <!-- Contact Section (Netlify Form) -->
+  <!-- Contact -->
   <section id="contact" class="bg-blue-50 py-12 px-4 md:px-16">
     <h2 class="text-2xl font-bold text-center text-blue-800 mb-6">Contact Us</h2>
-    <form name="contact" method="POST" data-netlify="true" class="max-w-2xl mx-auto space-y-4">
-      <input type="hidden" name="form-name" value="contact" />
+    <form name="contact" method="POST" data-netlify="true" class="...">
+      <input type="hidden" name="form-name" value="contact">
       <input type="text" name="name" placeholder="Name" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
       <input type="email" name="email" placeholder="Email" required class="border border-blue-400 rounded p-2 shadow-sm w-full">
       <textarea name="message" placeholder="Message" required class="min-h-[100px] border border-blue-400 rounded p-2 shadow-sm w-full"></textarea>
@@ -98,48 +100,70 @@
     <p>&copy; <span id="year"></span> Kiwi Properties. All rights reserved.</p>
   </footer>
 
+  <!-- JavaScript -->
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    const propertyImages = [
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-      "https://images.unsplash.com/photo-1592595896551-12c1d1d9a7a6",
-      "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
-      "https://images.unsplash.com/photo-1554995207-c18c203602cb",
-      "https://images.unsplash.com/photo-1572120360610-d971b9b78825",
-      "https://images.unsplash.com/photo-1565182999561-18d7dc61b7d7",
-      "https://images.unsplash.com/photo-1574180045827-681f8a1a9622",
-      "https://images.unsplash.com/photo-1600585153866-cac1f0384d71",
-      "https://images.unsplash.com/photo-1599423300746-b62533397364"
-    ];
+    function loadProperties() {
+      const stored = localStorage.getItem("properties");
+      return stored ? JSON.parse(stored) : [
+        { title: "Modern Family Paradise", description: "3 Beds • 2 Baths", price: 245000, imageUrl: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c" },
+        { title: "Urban Dream Retreat", description: "4 Beds • 3 Baths", price: 320000, imageUrl: "https://images.unsplash.com/photo-1592595896551-12c1d1d9a7a6" },
+        { title: "Luxury at its Finest", description: "5 Beds • 4 Baths", price: 550000, imageUrl: "https://images.unsplash.com/photo-1554995207-c18c203602cb" },
+      ];
+    }
 
-    const captions = [
-      "Modern Family Paradise",
-      "Urban Dream Retreat",
-      "Classic Charm Villa",
-      "Luxury at its Finest",
-      "Serene Garden Bungalow",
-      "Cozy Family Haven",
-      "Lakeside Relaxation",
-      "Bright & Spacious Living",
-      "Stylish Comfort Nest"
-    ];
+    function displayProperties(list) {
+      const listings = document.getElementById("listings");
+      listings.innerHTML = "";
+      list.forEach(p => {
+        listings.innerHTML += `
+          <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
+            <img src="${p.imageUrl}" class="w-full h-48 object-cover">
+            <div class="p-4">
+              <h3 class="font-semibold text-lg">${p.title}</h3>
+              <p class="text-sm text-gray-600">${p.description}</p>
+              <p class="text-xs text-gray-500 italic mt-1">Prime Location</p>
+              <button onclick='viewProperty(${JSON.stringify(p)})' class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
+            </div>
+          </div>`;
+      });
+    }
 
-    const prices = [245000, 320000, 410000, 550000, 280000, 330000, 460000, 370000, 390000];
+    function filterProperties() {
+      const type = document.getElementById("typeFilter").value;
+      const price = parseInt(document.getElementById("priceFilter").value) || Infinity;
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+      const props = loadProperties();
+      const filtered = props.filter(p => {
+        return (!type || p.description.toLowerCase().includes(type.toLowerCase())) &&
+               (!price || p.price <= price) &&
+               (p.title.toLowerCase().includes(keyword) || p.description.toLowerCase().includes(keyword));
+      });
+      displayProperties(filtered);
+    }
 
-    const listings = document.getElementById("listings");
-    propertyImages.forEach((img, index) => {
-      listings.innerHTML += `
-        <div class="shadow hover:shadow-lg transition rounded overflow-hidden bg-white">
-          <img src="${img}" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="font-semibold text-lg">${captions[index]}</h3>
-            <p class="text-sm text-gray-600">3 Beds • 2 Baths • $${prices[index].toLocaleString()}</p>
-            <p class="text-xs text-gray-500 italic mt-1">Prime Location</p>
-            <button class="mt-2 w-full bg-blue-600 text-white py-1 rounded">View Details</button>
-          </div>
-        </div>`
-    });
+    function viewProperty(prop) {
+      localStorage.setItem("selectedProperty", JSON.stringify(prop));
+      window.location.href = "view-properties.html";
+    }
+
+    window.onload = () => displayProperties(loadProperties());
   </script>
+
+  <!-- Start of Tawk.to Script -->
+  <script type="text/javascript">
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/688f4021d4de331929810add/1j1np517f';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
+    })();
+  </script>
+  <!-- End of Tawk.to Script -->
+
 </body>
 </html>
