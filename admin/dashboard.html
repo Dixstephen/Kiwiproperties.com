@@ -1,19 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
+   
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard – Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <!-- Supabase SDK -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-gray-100 p-6">
   <div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
-    <div class="flex justify-between items-center mb-4">
-      <h1 class="text-2xl font-bold text-blue-700">Admin Dashboard</h1>
-      <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded">Logout</button>
-    </div>
+    <h1 class="text-2xl font-bold mb-4 text-blue-700">Admin Dashboard</h1>
 
     <!-- Upload Form -->
     <form id="uploadForm" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -28,71 +26,19 @@
     <div id="propertyList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
   </div>
 
+  <script src="script.js"></script>
   <script>
-    // 🔐 Session Protection
-    if (!sessionStorage.getItem("isLoggedIn")) {
-      window.location.href = "login.html";
-    }
+  function logout() {
+    sessionStorage.removeItem("isLoggedIn");
+    window.location.href = "login.html";
+  }
+// Auto logout after 30 minutes
+setTimeout(() => {
+  sessionStorage.removeItem("isLoggedIn");
+  alert("Session expired. Please log in again.");
+  window.location.href = "login.html";
+}, 30 * 60 * 1000); // 30 minutes
 
-    // 🧠 Supabase Config
-    const SUPABASE_URL = 'https://zpxuuzpwqxdrfbhwmhvc.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpweHV1enB3cXhkcmZiaHdtaHZjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMzYwNzksImV4cCI6MjA2OTgxMjA3OX0.lSAAwjOwU8NZtX_t0obbz_UycTylQwRr9J_HmJDZH2Q';
-
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    const form = document.getElementById("uploadForm");
-    const propertyList = document.getElementById("propertyList");
-
-    async function loadProperties() {
-      const { data, error } = await supabase.from("properties").select("*").order("id", { ascending: false });
-      propertyList.innerHTML = "";
-      if (data) {
-        data.forEach(p => {
-          propertyList.innerHTML += `
-            <div class="bg-white rounded p-4 shadow space-y-2">
-              <img src="${p.imageurl}" class="w-full h-40 object-cover rounded" />
-              <h3 class="text-xl font-semibold text-blue-700">${p.title}</h3>
-              <p>${p.description}</p>
-              <p class="text-green-700 font-bold">$${parseFloat(p.price).toLocaleString()}</p>
-            </div>
-          `;
-        });
-      }
-    }
-
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const title = document.getElementById("title").value.trim();
-      const description = document.getElementById("description").value.trim();
-      const price = parseFloat(document.getElementById("price").value.trim());
-      const imageUrl = document.getElementById("imageUrl").value.trim();
-
-      if (!title || !description || !price || !imageUrl) return;
-
-      const { data, error } = await supabase.from("properties").insert([{ title, description, price, imageurl: imageUrl }]);
-
-      if (error) {
-        alert("Error uploading: " + error.message);
-      } else {
-        alert("Property uploaded!");
-        form.reset();
-        loadProperties();
-      }
-    });
-
-    function logout() {
-      sessionStorage.removeItem("isLoggedIn");
-      window.location.href = "login.html";
-    }
-
-    // 🔒 Auto logout after 30 minutes
-    setTimeout(() => {
-      sessionStorage.removeItem("isLoggedIn");
-      alert("Session expired. Please log in again.");
-      window.location.href = "login.html";
-    }, 30 * 60 * 1000);
-
-    loadProperties();
-  </script>
+</script>
 </body>
 </html>

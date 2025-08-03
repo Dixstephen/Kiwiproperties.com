@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+  // Block access if not logged in
+  if (sessionStorage.getItem("isLoggedIn") !== "true") {
+    window.location.href = "login.html";
+  }
+</script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Login – Admin</title>
+  <title>Admin Login – Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-blue-50 min-h-screen flex items-center justify-center">
-  <div class="bg-white p-8 rounded shadow-md w-full max-w-sm">
-    <h2 class="text-2xl font-bold mb-4 text-center text-blue-700">Admin Login</h2>
-    <form onsubmit="login(event)" class="space-y-4">
-      <input type="password" id="password" placeholder="Enter Password" required class="w-full border p-2 rounded" />
-      <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded">Login</button>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white p-8 rounded shadow max-w-sm w-full">
+    <h2 class="text-xl font-bold text-blue-700 mb-4 text-center">Admin Login</h2>
+    <form id="loginForm" class="space-y-4">
+      <input type="text" id="username" placeholder="Username" required class="border p-2 rounded w-full">
+      <input type="password" id="password" placeholder="Password" required class="border p-2 rounded w-full">
+      <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded">Login</button>
     </form>
-    <p id="error" class="text-red-600 mt-4 text-sm text-center hidden">Incorrect password</p>
+    <p id="error" class="text-red-600 text-sm mt-2 text-center hidden">Invalid credentials</p>
   </div>
 
   <script>
-    function login(event) {
-      event.preventDefault();
-      const password = document.getElementById("password").value;
-      if (password === "Prince2025") {
+    const loginForm = document.getElementById("loginForm");
+    const errorMsg = document.getElementById("error");
+
+    loginForm.addEventListener("submit", function(e) {
+      e.preventDefault();
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      if (username === "admin" && password === "Prince2025") {
         sessionStorage.setItem("isLoggedIn", "true");
         window.location.href = "dashboard.html";
       } else {
-        document.getElementById("error").classList.remove("hidden");
+        errorMsg.classList.remove("hidden");
       }
-    }
+    });
   </script>
+  <script>
+  // Auto logout after 30 minutes
+  setTimeout(() => {
+    sessionStorage.removeItem("isLoggedIn");
+    alert("Session expired. Please log in again.");
+    window.location.href = "login.html";
+  }, 30 * 60 * 1000); // 30 minutes
+</script>
+
 </body>
 </html>
