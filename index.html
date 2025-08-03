@@ -5,15 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Kiwi Properties</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <style>
-    .fade {
-      transition: opacity 1.2s ease-in-out;
-      opacity: 0;
-    }
-    .fade.active {
-      opacity: 1;
-    }
-  </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
@@ -30,8 +21,8 @@
     </nav>
   </header>
 
-  <!-- Hero Section with Background Image -->
-  <section class="bg-blue-100 py-6 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1600585152906-51fdb7140b02'); background-size: cover; background-position: center;">
+  <!-- Hero Section with Background Image Only -->
+  <section class="bg-blue-100 py-12 px-4 text-center relative" style="background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf'); background-size: cover; background-position: center;">
     <h2 class="text-4xl font-bold mb-2 text-white">Find Your Dream Home</h2>
     <p class="text-lg text-white mb-6">Explore the best properties from trusted sellers</p>
 
@@ -40,7 +31,7 @@
       <button onclick="filterProperties()" class="bg-blue-600 text-white px-4 py-2 rounded">Search</button>
     </div>
 
-    <div class="flex gap-4 justify-center mb-6">
+    <div class="flex gap-4 justify-center">
       <select id="typeFilter" onchange="filterProperties()" class="border border-blue-500 p-2 rounded text-white bg-blue-600">
         <option value="">All Types</option>
         <option value="Family">Family</option>
@@ -54,13 +45,6 @@
         <option value="800000">Up to $800,000</option>
       </select>
     </div>
-  </section>
-
-  <!-- Slide Section -->
-  <section class="relative max-w-5xl mx-auto mt-4">
-    <img id="sliderImage" class="w-full h-64 object-cover rounded fade active" src="https://images.unsplash.com/photo-1599427303058-f04b02050851" />
-    <button onclick="changeSlide(-1)" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-blue-600 text-white px-2 py-1">❮</button>
-    <button onclick="changeSlide(1)" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-blue-600 text-white px-2 py-1">❯</button>
   </section>
 
   <!-- Listings -->
@@ -116,34 +100,16 @@
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    const slideImages = [
-      "https://images.unsplash.com/photo-1599427303058-f04b02050851",
-      "https://images.unsplash.com/photo-1572120360610-d971b9b78825",
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be"
-    ];
-    let currentSlide = 0;
-    const sliderImage = document.getElementById("sliderImage");
-
-    function changeSlide(step) {
-      sliderImage.classList.remove("active");
-      setTimeout(() => {
-        currentSlide = (currentSlide + step + slideImages.length) % slideImages.length;
-        sliderImage.src = slideImages[currentSlide];
-        sliderImage.classList.add("active");
-      }, 400);
-    }
-    setInterval(() => changeSlide(1), 8000);
-
     const propertyImages = [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",
-      "https://images.unsplash.com/photo-1592595896551-12c1d1d9a7a6",
+      "https://images.unsplash.com/photo-1560185127-6ed189bf02f4",
+      "https://images.unsplash.com/photo-1600585153731-cd8a1c9128a1",
       "https://images.unsplash.com/photo-1580587771525-78b9dba3b914",
-      "https://images.unsplash.com/photo-1554995207-c18c203602cb",
+      "https://images.unsplash.com/photo-1599423300746-b62533397364",
       "https://images.unsplash.com/photo-1572120360610-d971b9b78825",
-      "https://images.unsplash.com/photo-1600585153850-1c4f5b8a8d42",
-      "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
-      "https://images.unsplash.com/photo-1600585153866-cac1f0384d71",
-      "https://images.unsplash.com/photo-1600585152894-7c1d0d4f5c54"
+      "https://images.unsplash.com/photo-1600585152894-7c1d0d4f5c54",
+      "https://images.unsplash.com/photo-1554995207-c18c203602cb",
+      "https://images.unsplash.com/photo-1600585153850-1c4f5b8a8d42"
     ];
 
     const captions = [
